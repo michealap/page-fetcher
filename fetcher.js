@@ -14,22 +14,24 @@ When you're trying to control the order of asynchronous operations, you can use 
 const request = require('request');
 const fs = require('fs');
 
-let myArgs = process.argv.slice(2);
+const myArgs = process.argv.slice(2);
+const URL = myArgs[0];
+const filepath = myArgs[1];
 
-request(myArgs[0], (error, response, body) => {
+request(URL, (error, response, body) => {
   // console.log('error:', error); // Print the error if one occurred
   // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-  fs.writeFile(myArgs[1], body, err => {
+  fs.writeFile(filepath, body, err => {
     if (err) {
       console.error(err);
       return;
     }
-    console.log(`Downloaded and saved ${myArgs[0].length} bytes to ${myArgs[1]}`);
     //file written successfully
   });
 
-  console.log("Writing to file");
-  //console.log('body:', body); //
+  console.log("Writing to file ...");
+  console.log(`Downloaded and saved ${body.length} bytes to ${filepath}`);
+
 });
 
 // const data = fs.readFileSync(myArgs[0], 'utf-8');
